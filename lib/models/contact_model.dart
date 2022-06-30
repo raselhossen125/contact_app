@@ -28,7 +28,7 @@ final contactList = <ContactModel>[
     mobile: '01755936313',
     id: 01,
     dob: '24/04/1982',
-    email: 'leo@gmail.com',
+    email: 'straselhossen24@gmail.com',
     gender: 'Male',
     streetAddress: 'Argentina',
     website: 'www.flutter.dev',
