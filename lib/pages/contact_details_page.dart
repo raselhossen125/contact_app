@@ -1,28 +1,32 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unnecessary_null_comparison, await_only_futures
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unnecessary_null_comparison, await_only_futures, must_be_immutable
 
 import 'dart:io';
-
 import 'package:contact_app/models/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../untils/back_btn.dart';
+import '../widget/back_btn.dart';
 
 class ContactDetailsPage extends StatefulWidget {
   static const routeName = '/contact-details';
+  ContactModel contact;
+
+  ContactDetailsPage({
+    required this.contact,
+  });
 
   @override
   State<ContactDetailsPage> createState() => _ContactDetailsPageState();
 }
 
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
-  late ContactModel contact;
+  // late ContactModel contact;
   Size? size;
 
-  @override
-  void didChangeDependencies() {
-    contact = ModalRoute.of(context)!.settings.arguments as ContactModel;
-    super.didChangeDependencies();
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   contact = ModalRoute.of(context)!.settings.arguments as ContactModel;
+  //   super.didChangeDependencies();
+  // }
 
   buildContainer() {
     return Container(
@@ -48,7 +52,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                 Navigator.of(context).pop();
               },
               titleColor: Colors.black,
-              title: contact.name,
+              title: widget.contact.name,
             ),
             Expanded(
               child: Padding(
@@ -56,7 +60,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                     top: 5, left: 10, right: 10, bottom: 10),
                 child: ListView(
                   children: [
-                    contact.image == null
+                    widget.contact.image == null
                         ? Image.asset(
                             'images/R.png',
                             height: 250,
@@ -64,13 +68,13 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             fit: BoxFit.cover,
                           )
                         : Image.file(
-                            File(contact.image!),
+                            File(widget.contact.image!),
                             height: 250,
                             width: size!.width,
                             fit: BoxFit.cover,
                           ),
                     ListTile(
-                      title: Text(contact.mobile),
+                      title: Text(widget.contact.mobile),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -93,11 +97,11 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                     buildContainer(),
                     ListTile(
                       title: Text(
-                        contact.email == null || contact.email!.isEmpty
+                        widget.contact.email == null || widget.contact.email!.isEmpty
                             ? 'Not Collected'
-                            : contact.email!,
+                            : widget.contact.email!,
                       ),
-                      trailing: contact.email == null || contact.email!.isEmpty
+                      trailing: widget.contact.email == null || widget.contact.email!.isEmpty
                           ? IconButton(
                               onPressed: () {},
                               icon: Icon(Icons.edit_outlined),
@@ -110,13 +114,13 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                     buildContainer(),
                     ListTile(
                       title: Text(
-                        contact.streetAddress == null || contact.email!.isEmpty
+                        widget.contact.streetAddress == null || widget.contact.email!.isEmpty
                             ? 'Not Collected'
-                            : contact.streetAddress!,
+                            : widget.contact.streetAddress!,
                       ),
                       trailing: IconButton(
-                        onPressed: contact.streetAddress == null ||
-                                contact.email!.isEmpty
+                        onPressed: widget.contact.streetAddress == null ||
+                                widget.contact.email!.isEmpty
                             ? null
                             : _showMap,
                         icon: Icon(Icons.location_on_outlined),
@@ -125,13 +129,13 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                     buildContainer(),
                     ListTile(
                       title: Text(
-                        contact.website == null || contact.email!.isEmpty
+                        widget.contact.website == null || widget.contact.email!.isEmpty
                             ? 'Not Collected'
-                            : contact.website!,
+                            : widget.contact.website!,
                       ),
                       trailing: IconButton(
                           onPressed:
-                              contact.website == null || contact.email!.isEmpty
+                              widget.contact.website == null || widget.contact.email!.isEmpty
                                   ? null
                                   : _showWebsite,
                           icon: Icon(Icons.web_outlined)),
@@ -148,7 +152,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _callSend() async {
-    final url = await Uri.parse('tel:${contact.mobile}');
+    final url = await Uri.parse('tel:${widget.contact.mobile}');
     if (url != null) {
       launchUrl(url);
     } else {
@@ -157,7 +161,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _messageSend() async {
-    final url = await Uri.parse('sms:${contact.mobile}');
+    final url = await Uri.parse('sms:${widget.contact.mobile}');
     if (url != null) {
       launchUrl(url);
     } else {
@@ -166,7 +170,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _emailSend() async {
-    final url = await Uri.parse('mailto:${contact.email}');
+    final url = await Uri.parse('mailto:${widget.contact.email}');
     if (url != null) {
       launchUrl(url);
     } else {
@@ -175,7 +179,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _showMap() async {
-    final url = await Uri.parse('geo:0,0?q=${contact.streetAddress}');
+    final url = await Uri.parse('geo:0,0?q=${widget.contact.streetAddress}');
     if (url != null) {
       launchUrl(url);
     } else {
@@ -184,7 +188,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
   }
 
   void _showWebsite() async {
-    final url = await Uri.parse('https://${contact.website}');
+    final url = await Uri.parse('https://${widget.contact.website}');
     if (url != null) {
       launchUrl(url);
     } else {
