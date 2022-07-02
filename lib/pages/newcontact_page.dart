@@ -47,7 +47,6 @@ class _NewContactPageState extends State<NewContactPage> {
       child: Scaffold(
         body: Column(
           children: [
-            SizedBox(height: 5,),
             BackBtn(
                 cardColor: Colors.white,
                 cardBtnColor: Colors.black,

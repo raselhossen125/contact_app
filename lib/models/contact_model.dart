@@ -35,7 +35,7 @@ final contactList = <ContactModel>[
   ),
   ContactModel(
     name: 'Cristiano Ronaldo',
-    mobile: '01755936313',
+    mobile: '01748667577',
     id: 02,
     dob: '15/03/1985',
     email: 'ronaldo@gmail.com',

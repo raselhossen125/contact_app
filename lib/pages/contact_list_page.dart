@@ -50,16 +50,19 @@ class _ContactListPageState extends State<ContactListPage> {
           }),
           child: Column(
             children: [
-              ListTile(
-                title: Text(
-                  'Contact List',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              Card(
+                elevation: 2,
+                child: ListTile(
+                  title: Text(
+                    'Contact List',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                  ),
                 ),
               ),
               Expanded(
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                      const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
                   child: ListView.builder(
                     itemCount: contactList.length,
                     itemBuilder: (context, index) {
@@ -98,7 +101,7 @@ class _ContactListPageState extends State<ContactListPage> {
                           );
                         },
                         openBuilder: (BuildContext _, VoidCallback openContainer) {
-                          return ContactDetailsPage(contact: contact);
+                          return ContactDetailsPage(contact: contact, index: index);
                         },
                       );
                     },

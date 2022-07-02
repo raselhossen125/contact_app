@@ -27,38 +27,41 @@ class BackBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Card(
-          elevation: 5,
-          color: cardColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          child: IconButton(
-            onPressed: () {
-              cardBtnFunction();
-            },
-            icon: cardBtnIcon,
-            color: cardBtnColor,
+    return Card(
+      elevation: 2,
+      child: Row(
+        children: [
+          Card(
+            elevation: 5,
+            color: cardColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            child: IconButton(
+              onPressed: () {
+                cardBtnFunction();
+              },
+              icon: cardBtnIcon,
+              color: cardBtnColor,
+            ),
           ),
-        ),
-        SizedBox(
-          width: 20,
-        ),
-        Text(
-          title.toString(),
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: titleColor),
-        ),
-        Spacer(),
-        IconButton(
-          onPressed: () {
-            actionIconFunction!();
-          },
-          icon: Icon(actionIcon),
-          color: actionIconColor,
-        ),
-      ],
+          SizedBox(
+            width: 20,
+          ),
+          Text(
+            title.toString(),
+            style: TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: titleColor),
+          ),
+          Spacer(),
+          IconButton(
+            onPressed: () {
+              actionIconFunction!();
+            },
+            icon: Icon(actionIcon),
+            color: actionIconColor,
+          ),
+        ],
+      ),
     );
   }
 }

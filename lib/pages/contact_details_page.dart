@@ -1,17 +1,21 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unnecessary_null_comparison, await_only_futures, must_be_immutable
+// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, unnecessary_null_comparison, await_only_futures, must_be_immutable, unused_local_variable, avoid_print
 
 import 'dart:io';
 import 'package:contact_app/models/contact_model.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../widget/back_btn.dart';
+import '../widget/editTextField_widget.dart';
+import 'contact_list_page.dart';
 
 class ContactDetailsPage extends StatefulWidget {
   static const routeName = '/contact-details';
   ContactModel contact;
+  int index;
 
   ContactDetailsPage({
     required this.contact,
+    required this.index,
   });
 
   @override
@@ -21,6 +25,16 @@ class ContactDetailsPage extends StatefulWidget {
 class _ContactDetailsPageState extends State<ContactDetailsPage> {
   // late ContactModel contact;
   Size? size;
+  bool webListTile = true;
+  bool phoneListTile = true;
+  bool emailListTile = true;
+  bool addressListTile = true;
+  bool saveBtn = false;
+
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final websiteController = TextEditingController();
 
   // @override
   // void didChangeDependencies() {
@@ -36,6 +50,14 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
     );
   }
 
+  buildContainer2() {
+    return Container(
+      height: 23,
+      width: 1,
+      color: Color.fromARGB(255, 194, 193, 193),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
@@ -43,7 +65,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
       child: Scaffold(
         body: Column(
           children: [
-            SizedBox(height: 5,),
             BackBtn(
               cardColor: Colors.white,
               cardBtnColor: Colors.black,
@@ -57,7 +78,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(
-                    top: 5, left: 10, right: 10, bottom: 10),
+                    top: 2, left: 10, right: 10, bottom: 10),
                 child: ListView(
                   children: [
                     widget.contact.image == null
@@ -73,74 +94,220 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             width: size!.width,
                             fit: BoxFit.cover,
                           ),
-                    ListTile(
-                      title: Text(widget.contact.mobile),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            onPressed: _callSend,
-                            icon: Icon(Icons.phone_outlined),
-                          ),
-                          Container(
-                            height: 23,
-                            width: 1,
-                            color: Color.fromARGB(255, 194, 193, 193),
-                          ),
-                          IconButton(
-                            onPressed: _messageSend,
-                            icon: Icon(Icons.message_outlined),
-                          ),
-                        ],
-                      ),
-                    ),
-                    buildContainer(),
-                    ListTile(
-                      title: Text(
-                        widget.contact.email == null || widget.contact.email!.isEmpty
-                            ? 'Not Collected'
-                            : widget.contact.email!,
-                      ),
-                      trailing: widget.contact.email == null || widget.contact.email!.isEmpty
-                          ? IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.edit_outlined),
-                            )
-                          : IconButton(
-                              onPressed: _emailSend,
-                              icon: Icon(Icons.email_outlined),
+                          SizedBox(height: 5,),
+                          buildContainer(),
+                    phoneListTile
+                        ? ListTile(
+                            contentPadding: EdgeInsets.only(right: 0, left: 12),
+                            title: Text(widget.contact.mobile),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: _callSend,
+                                  icon: Icon(Icons.phone_outlined),
+                                ),
+                                buildContainer2(),
+                                IconButton(
+                                  onPressed: _messageSend,
+                                  icon: Icon(Icons.message_outlined),
+                                ),
+                                buildContainer2(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      phoneListTile = false;
+                                      saveBtn = true;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit_outlined),
+                                ),
+                              ],
                             ),
-                    ),
+                          )
+                        : Column(
+                            children: [
+                              EditTextFieldWidget(
+                                controller: phoneController,
+                                icon: Icons.phone_outlined,
+                              ),
+                              // TextButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       updateData();
+                              //       phoneListTile = true;
+                              //     });
+                              //   },
+                              //   child: Text('Save'),
+                              // ),
+                            ],
+                          ),
                     buildContainer(),
-                    ListTile(
-                      title: Text(
-                        widget.contact.streetAddress == null || widget.contact.email!.isEmpty
-                            ? 'Not Collected'
-                            : widget.contact.streetAddress!,
-                      ),
-                      trailing: IconButton(
-                        onPressed: widget.contact.streetAddress == null ||
-                                widget.contact.email!.isEmpty
-                            ? null
-                            : _showMap,
-                        icon: Icon(Icons.location_on_outlined),
-                      ),
-                    ),
+                    emailListTile
+                        ? ListTile(
+                            contentPadding: EdgeInsets.only(right: 0, left: 12),
+                            title: Text(
+                              widget.contact.email == null ||
+                                      widget.contact.email!.isEmpty
+                                  ? 'Not Collected'
+                                  : widget.contact.email!,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: widget.contact.email == null ||
+                                          widget.contact.email!.isEmpty
+                                      ? null
+                                      : _emailSend,
+                                  icon: Icon(Icons.email_outlined),
+                                ),
+                                buildContainer2(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      emailListTile = false;
+                                      saveBtn = true;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit_outlined),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              EditTextFieldWidget(
+                                controller: emailController,
+                                icon: Icons.email_outlined,
+                              ),
+                              // TextButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       updateData();
+                              //       emailListTile = true;
+                              //     });
+                              //   },
+                              //   child: Text('Save'),
+                              // ),
+                            ],
+                          ),
                     buildContainer(),
-                    ListTile(
-                      title: Text(
-                        widget.contact.website == null || widget.contact.email!.isEmpty
-                            ? 'Not Collected'
-                            : widget.contact.website!,
-                      ),
-                      trailing: IconButton(
-                          onPressed:
-                              widget.contact.website == null || widget.contact.email!.isEmpty
-                                  ? null
-                                  : _showWebsite,
-                          icon: Icon(Icons.web_outlined)),
-                    ),
+                    addressListTile
+                        ? ListTile(
+                            contentPadding: EdgeInsets.only(right: 0, left: 12),
+                            title: Text(
+                              widget.contact.streetAddress == null ||
+                                      widget.contact.email!.isEmpty
+                                  ? 'Not Collected'
+                                  : widget.contact.streetAddress!,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: widget.contact.streetAddress ==
+                                              null ||
+                                          widget.contact.streetAddress!.isEmpty
+                                      ? null
+                                      : _showMap,
+                                  icon: Icon(Icons.location_on_outlined),
+                                ),
+                                buildContainer2(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      addressListTile = false;
+                                      saveBtn = true;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit_outlined),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              EditTextFieldWidget(
+                                controller: addressController,
+                                icon: Icons.location_on_outlined,
+                              ),
+                              // TextButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       updateData();
+                              //       addressListTile = true;
+                              //     });
+                              //   },
+                              //   child: Text('Save'),
+                              // ),
+                            ],
+                          ),
                     buildContainer(),
+                    webListTile
+                        ? ListTile(
+                            contentPadding: EdgeInsets.only(right: 0, left: 12),
+                            title: Text(
+                              widget.contact.website == null ||
+                                      widget.contact.email!.isEmpty
+                                  ? 'Not Collected'
+                                  : widget.contact.website!,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  onPressed: widget.contact.website == null ||
+                                          widget.contact.website!.isEmpty
+                                      ? null
+                                      : _showWebsite,
+                                  icon: Icon(Icons.web_outlined),
+                                ),
+                                buildContainer2(),
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      webListTile = false;
+                                      saveBtn = true;
+                                    });
+                                  },
+                                  icon: Icon(Icons.edit_outlined),
+                                ),
+                              ],
+                            ),
+                          )
+                        : Column(
+                            children: [
+                              EditTextFieldWidget(
+                                controller: websiteController,
+                                icon: Icons.web_outlined,
+                              ),
+                              // TextButton(
+                              //   onPressed: () {
+                              //     setState(() {
+                              //       updateData();
+                              //       webListTile = true;
+                              //     });
+                              //   },
+                              //   child: Text('Save'),
+                              // ),
+                            ],
+                          ),
+                    buildContainer(),
+                    if (saveBtn)
+                      TextButton(
+                        onPressed: () {
+                          setState(() {
+                            updateData();
+                            webListTile = true;
+                            emailListTile = true;
+                            addressListTile = true;
+                            phoneListTile = true;
+                            saveBtn = false;
+                          });
+                        },
+                        child: Text('Save'),
+                      ),
                   ],
                 ),
               ),
@@ -149,6 +316,38 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
         ),
       ),
     );
+  }
+
+  void updateData() {
+    print(widget.contact.mobile);
+    final newData = ContactModel(
+      name: widget.contact.name,
+      mobile: phoneController.text.isEmpty
+          ? widget.contact.mobile
+          : phoneController.text,
+      email: emailController.text.isEmpty
+          ? widget.contact.email
+          : emailController.text,
+      streetAddress: addressController.text.isEmpty
+          ? widget.contact.streetAddress
+          : addressController.text,
+      website: websiteController.text.isEmpty
+          ? widget.contact.website
+          : websiteController.text,
+    );
+    print(widget.contact.name);
+    print(
+      phoneController.text.isEmpty
+          ? widget.contact.mobile
+          : phoneController.text,
+    );
+    print(websiteController.text.isEmpty
+        ? widget.contact.website
+        : websiteController.text);
+    print('.....................................');
+    contactList[widget.index] = newData;
+    print(contactList.map((e) => e.mobile));
+    Navigator.of(context).pushNamed(ContactListPage.routeName);
   }
 
   void _callSend() async {
