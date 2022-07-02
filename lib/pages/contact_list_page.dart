@@ -51,18 +51,18 @@ class _ContactListPageState extends State<ContactListPage> {
           child: Column(
             children: [
               Card(
-                elevation: 2,
+                elevation: 3,
                 child: ListTile(
                   title: Text(
-                    'Contact List',
+                    '${contactList.length}  Contacts',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                   ),
                 ),
               ),
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10, right: 10, bottom: 10, top: 5),
+                  padding: const EdgeInsets.only(
+                      left: 10, right: 10, bottom: 10, top: 5),
                   child: ListView.builder(
                     itemCount: contactList.length,
                     itemBuilder: (context, index) {
@@ -100,8 +100,10 @@ class _ContactListPageState extends State<ContactListPage> {
                             ),
                           );
                         },
-                        openBuilder: (BuildContext _, VoidCallback openContainer) {
-                          return ContactDetailsPage(contact: contact, index: index);
+                        openBuilder:
+                            (BuildContext _, VoidCallback openContainer) {
+                          return ContactDetailsPage(
+                              contact: contact, index: index);
                         },
                       );
                     },

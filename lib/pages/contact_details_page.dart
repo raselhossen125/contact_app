@@ -94,8 +94,10 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             width: size!.width,
                             fit: BoxFit.cover,
                           ),
-                          SizedBox(height: 5,),
-                          buildContainer(),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    buildContainer(),
                     phoneListTile
                         ? ListTile(
                             contentPadding: EdgeInsets.only(right: 0, left: 12),
@@ -125,13 +127,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               ],
                             ),
                           )
-                        : Column(
-                            children: [
-                              EditTextFieldWidget(
-                                controller: phoneController,
-                                icon: Icons.phone_outlined,
-                              ),
-                            ],
+                        : EditTextFieldWidget(
+                            controller: phoneController,
+                            icon: Icons.phone_outlined,
                           ),
                     buildContainer(),
                     emailListTile
@@ -166,13 +164,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               ],
                             ),
                           )
-                        : Column(
-                            children: [
-                              EditTextFieldWidget(
-                                controller: emailController,
-                                icon: Icons.email_outlined,
-                              ),
-                            ],
+                        : EditTextFieldWidget(
+                            controller: emailController,
+                            icon: Icons.email_outlined,
                           ),
                     buildContainer(),
                     addressListTile
@@ -180,7 +174,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             contentPadding: EdgeInsets.only(right: 0, left: 12),
                             title: Text(
                               widget.contact.streetAddress == null ||
-                                      widget.contact.email!.isEmpty
+                                      widget.contact.streetAddress!.isEmpty
                                   ? 'Not Collected'
                                   : widget.contact.streetAddress!,
                             ),
@@ -208,13 +202,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               ],
                             ),
                           )
-                        : Column(
-                            children: [
-                              EditTextFieldWidget(
-                                controller: addressController,
-                                icon: Icons.location_on_outlined,
-                              ),
-                            ],
+                        : EditTextFieldWidget(
+                            controller: addressController,
+                            icon: Icons.location_on_outlined,
                           ),
                     buildContainer(),
                     webListTile
@@ -249,13 +239,9 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                               ],
                             ),
                           )
-                        : Column(
-                            children: [
-                              EditTextFieldWidget(
-                                controller: websiteController,
-                                icon: Icons.web_outlined,
-                              ),
-                            ],
+                        : EditTextFieldWidget(
+                            controller: websiteController,
+                            icon: Icons.web_outlined,
                           ),
                     buildContainer(),
                     if (saveBtn)

@@ -48,23 +48,24 @@ class _NewContactPageState extends State<NewContactPage> {
         body: Column(
           children: [
             BackBtn(
-                cardColor: Colors.white,
-                cardBtnColor: Colors.black,
-                cardBtnIcon: Icon(Icons.arrow_back),
-                cardBtnFunction: () {
-                  Navigator.of(context).pop();
-                },
-                titleColor: Colors.black,
-                title: 'New Contact',
-                actionIcon: Icons.save,
-                actionIconColor: Colors.deepOrange,
-                actionIconFunction: () {
-                  _saveButton();
-                },
-              ),
+              cardColor: Colors.white,
+              cardBtnColor: Colors.black,
+              cardBtnIcon: Icon(Icons.arrow_back),
+              cardBtnFunction: () {
+                Navigator.of(context).pop();
+              },
+              titleColor: Colors.black,
+              title: 'New Contact',
+              actionIcon: Icons.save,
+              actionIconColor: Colors.deepOrange,
+              actionIconFunction: () {
+                _saveButton();
+              },
+            ),
             Expanded(
               child: ListView(
-                padding: EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 10),
+                padding:
+                    EdgeInsets.only(top: 0, left: 10, right: 10, bottom: 10),
                 children: [
                   Container(
                     height: 172,
@@ -181,7 +182,8 @@ class _NewContactPageState extends State<NewContactPage> {
                                           groupValue: genderGroupValue,
                                           onChanged: (value) {
                                             setState(() {
-                                              genderGroupValue = value as String;
+                                              genderGroupValue =
+                                                  value as String;
                                             });
                                           }),
                                       Text(
@@ -196,7 +198,8 @@ class _NewContactPageState extends State<NewContactPage> {
                                           groupValue: genderGroupValue,
                                           onChanged: (value) {
                                             setState(() {
-                                              genderGroupValue = value as String;
+                                              genderGroupValue =
+                                                  value as String;
                                             });
                                           }),
                                       Text(
@@ -293,5 +296,4 @@ class _NewContactPageState extends State<NewContactPage> {
     contactList.add(contact);
     Navigator.of(context).pop();
   }
-
 }
