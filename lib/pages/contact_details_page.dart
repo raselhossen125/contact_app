@@ -131,15 +131,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                 controller: phoneController,
                                 icon: Icons.phone_outlined,
                               ),
-                              // TextButton(
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       updateData();
-                              //       phoneListTile = true;
-                              //     });
-                              //   },
-                              //   child: Text('Save'),
-                              // ),
                             ],
                           ),
                     buildContainer(),
@@ -181,15 +172,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                 controller: emailController,
                                 icon: Icons.email_outlined,
                               ),
-                              // TextButton(
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       updateData();
-                              //       emailListTile = true;
-                              //     });
-                              //   },
-                              //   child: Text('Save'),
-                              // ),
                             ],
                           ),
                     buildContainer(),
@@ -232,15 +214,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                 controller: addressController,
                                 icon: Icons.location_on_outlined,
                               ),
-                              // TextButton(
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       updateData();
-                              //       addressListTile = true;
-                              //     });
-                              //   },
-                              //   child: Text('Save'),
-                              // ),
                             ],
                           ),
                     buildContainer(),
@@ -282,15 +255,6 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                                 controller: websiteController,
                                 icon: Icons.web_outlined,
                               ),
-                              // TextButton(
-                              //   onPressed: () {
-                              //     setState(() {
-                              //       updateData();
-                              //       webListTile = true;
-                              //     });
-                              //   },
-                              //   child: Text('Save'),
-                              // ),
                             ],
                           ),
                     buildContainer(),
@@ -334,17 +298,11 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
       website: websiteController.text.isEmpty
           ? widget.contact.website
           : websiteController.text,
+      dob: widget.contact.dob,
+      gender: widget.contact.gender,
+      id: widget.contact.id,
+      image: widget.contact.image,
     );
-    print(widget.contact.name);
-    print(
-      phoneController.text.isEmpty
-          ? widget.contact.mobile
-          : phoneController.text,
-    );
-    print(websiteController.text.isEmpty
-        ? widget.contact.website
-        : websiteController.text);
-    print('.....................................');
     contactList[widget.index] = newData;
     print(contactList.map((e) => e.mobile));
     Navigator.of(context).pushNamed(ContactListPage.routeName);
