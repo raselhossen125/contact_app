@@ -212,7 +212,7 @@ class _ContactDetailsPageState extends State<ContactDetailsPage> {
                             contentPadding: EdgeInsets.only(right: 0, left: 12),
                             title: Text(
                               widget.contact.website == null ||
-                                      widget.contact.email!.isEmpty
+                                      widget.contact.website!.isEmpty
                                   ? 'Not Collected'
                                   : widget.contact.website!,
                             ),
