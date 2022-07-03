@@ -3,7 +3,9 @@
 import 'package:animations/animations.dart';
 import 'package:contact_app/models/contact_model.dart';
 import 'package:contact_app/pages/contact_details_page.dart';
+import 'package:contact_app/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'newcontact_page.dart';
 
 class ContactListPage extends StatefulWidget {
@@ -25,9 +27,8 @@ class _ContactListPageState extends State<ContactListPage> {
           transitionDuration: Duration(seconds: 2),
           closedBuilder: (context, openWidget()) {
             return FloatingActionButton(
-              onPressed: () async {
-                await openWidget();
-                setState(() {});
+              onPressed: () {
+                openWidget();
               },
               child: Icon(Icons.add),
             );
@@ -48,69 +49,66 @@ class _ContactListPageState extends State<ContactListPage> {
               child: child,
             );
           }),
-          child: Column(
-            children: [
-              Card(
-                elevation: 3,
-                child: ListTile(
-                  title: Text(
-                    '${contactList.length}  Contacts',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+          child: Consumer<ContactProvider>(
+            builder: (context, provider, _) => Column(
+              children: [
+                Card(
+                  elevation: 3,
+                  child: ListTile(
+                    title: Text(
+                      '${contactList.length}  Contacts',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 10, right: 10, bottom: 10, top: 5),
-                  child: ListView.builder(
-                    itemCount: contactList.length,
-                    itemBuilder: (context, index) {
-                      final contact = contactList[index];
-                      return OpenContainer(
-                        transitionDuration: Duration(seconds: 2),
-                        transitionType: ContainerTransitionType.fadeThrough,
-                        closedBuilder:
-                            (BuildContext _, VoidCallback openContainer) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            child: InkWell(
-                              onTap: openContainer,
-                              // () {
-                              //   Navigator.of(context).pushNamed(
-                              //     ContactDetailsPage.routeName,
-                              //     arguments: contact,
-                              //   );
-                              // },
-                              child: Card(
-                                elevation: 5,
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundColor: Colors.deepOrange,
-                                    child: Center(
-                                      child: Text(
-                                        contact.name.substring(0, 2),
-                                        style: TextStyle(color: Colors.white),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        left: 10, right: 10, bottom: 10, top: 5),
+                    child: ListView.builder(
+                      itemCount: provider.items.length,
+                      itemBuilder: (context, index) {
+                        final contact = provider.items[index];
+                        return OpenContainer(
+                          transitionDuration: Duration(seconds: 2),
+                          transitionType: ContainerTransitionType.fadeThrough,
+                          closedBuilder:
+                              (BuildContext _, VoidCallback openContainer) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 2),
+                              child: InkWell(
+                                onTap: openContainer,
+                                child: Card(
+                                  elevation: 5,
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: Colors.deepOrange,
+                                      child: Center(
+                                        child: Text(
+                                          contact.name.substring(0, 2),
+                                          style: TextStyle(color: Colors.white),
+                                        ),
                                       ),
                                     ),
+                                    title: Text(contact.name),
                                   ),
-                                  title: Text(contact.name),
                                 ),
                               ),
-                            ),
-                          );
-                        },
-                        openBuilder:
-                            (BuildContext _, VoidCallback openContainer) {
-                          return ContactDetailsPage(
-                              contact: contact, index: index);
-                        },
-                      );
-                    },
+                            );
+                          },
+                          openBuilder:
+                              (BuildContext _, VoidCallback openContainer) {
+                            return ContactDetailsPage(
+                                contact: contact, index: index);
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

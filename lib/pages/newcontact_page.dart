@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors, sized_box_for_whitespace, unused_local_variable
 
 import 'dart:io';
+import 'package:contact_app/provider/contact_provider.dart';
 import 'package:contact_app/untils/colors.dart';
 import 'package:contact_app/widget/textField_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../models/contact_model.dart';
 import '../untils/colors.dart';
 import '../widget/back_btn.dart';
@@ -24,19 +26,19 @@ class _NewContactPageState extends State<NewContactPage> {
   ImageSource source = ImageSource.camera;
   String genderGroupValue = '';
 
-  final nameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final emailController = TextEditingController();
-  final addressController = TextEditingController();
-  final websiteController = TextEditingController();
+  final updateNameController = TextEditingController();
+  final updatePhoneController = TextEditingController();
+  final updateEmailController = TextEditingController();
+  final updateAddressController = TextEditingController();
+  final updateWebsiteController = TextEditingController();
 
   @override
   void dispose() {
-    nameController.dispose();
-    phoneController.dispose();
-    emailController.dispose();
-    addressController.dispose();
-    websiteController.dispose();
+    updateNameController.dispose();
+    updatePhoneController.dispose();
+    updateEmailController.dispose();
+    updateAddressController.dispose();
+    updateWebsiteController.dispose();
     super.dispose();
   }
 
@@ -222,31 +224,31 @@ class _NewContactPageState extends State<NewContactPage> {
                     height: 10,
                   ),
                   TextFieldWidget(
-                    controller: nameController,
+                    controller: updateNameController,
                     prefixIcon: Icons.person,
                     hintText: 'Enter your name',
                   ),
                   SizedBox(height: 10),
                   TextFieldWidget(
-                    controller: phoneController,
+                    controller: updatePhoneController,
                     prefixIcon: Icons.phone,
                     hintText: 'Enter your phone number',
                   ),
                   SizedBox(height: 10),
                   TextFieldWidget(
-                    controller: emailController,
+                    controller: updateEmailController,
                     prefixIcon: Icons.email,
                     hintText: 'Enter your email',
                   ),
                   SizedBox(height: 10),
                   TextFieldWidget(
-                    controller: addressController,
+                    controller: updateAddressController,
                     prefixIcon: Icons.location_on,
                     hintText: 'Enter your address',
                   ),
                   SizedBox(height: 10),
                   TextFieldWidget(
-                    controller: websiteController,
+                    controller: updateWebsiteController,
                     prefixIcon: Icons.web,
                     hintText: 'Enter your website url',
                   ),
@@ -284,16 +286,16 @@ class _NewContactPageState extends State<NewContactPage> {
 
   _saveButton() {
     final contact = ContactModel(
-      mobile: phoneController.text,
-      name: nameController.text,
-      email: emailController.text,
-      streetAddress: addressController.text,
-      website: websiteController.text,
+      mobile: updatePhoneController.text,
+      name: updateNameController.text,
+      email: updateEmailController.text,
+      streetAddress: updateAddressController.text,
+      website: updateWebsiteController.text,
       dob: dob,
       gender: genderGroupValue,
       image: imagePath,
     );
-    contactList.add(contact);
+    Provider.of<ContactProvider>(context, listen: false).addContact(contact);
     Navigator.of(context).pop();
   }
 }
